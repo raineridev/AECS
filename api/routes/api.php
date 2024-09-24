@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Apps\SetupApp;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use Illuminate\Http\Request;
@@ -13,3 +14,7 @@ Route::prefix('/auth')->group(function () {
     Route::post('/register', [RegisterController::class, 'store']);
     Route::post('/login', [LoginController::class, 'login']);
 });
+
+Route::prefix('/apps')->group(function () {
+    Route::resource('/setup', SetupApp::class)->middleware('auth:sanctum');
+})->middleware('auth:sanctum');
