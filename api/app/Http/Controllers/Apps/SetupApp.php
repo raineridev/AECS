@@ -15,4 +15,31 @@ class SetupApp extends Controller
 
         return response()->json($app, 201);
     }
+
+    public function update(AppConfigRequest $request, $id)
+    {
+        if(!App::find($id)) {
+            return response()->json(['message' => 'Not Found'], 404);
+        }
+        if(App::find($id)->user_id !== auth()->id()) {
+            return response()->json(['message' => 'Unauthorized'], 401);
+        }
+
+        $app = App::find($id);
+        $app->update(request()->all());
+
+        return response()->json($app, 204);
+    }
+
+    public function destroy($id)
+    {
+        if(!App::find($id)) {
+            return response()->json(['message' => 'Not Found'], 404);
+        }
+        if(App::find($id)->user_id !== auth()->id()) {
+            return response()->json(['message' => 'Unauthorized'], 401);
+        }
+        App::destroy($id);
+        return response()->json(null, 204);
+    }
 }
