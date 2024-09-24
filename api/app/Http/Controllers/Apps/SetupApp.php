@@ -11,9 +11,8 @@ class SetupApp extends Controller
 {
     public function store(AppConfigRequest $request)
     {
-        $data = array_merge(['user_id' => auth()->id()], $request->validated());
-        // return $data;
-        $app = App::create($data);
+        $app = App::create(array_merge(['user_id' => auth()->id()], $request->validated()));
+
         return response()->json($app, 201);
     }
 }
